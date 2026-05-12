@@ -3,7 +3,7 @@ from sagemaker.sklearn.model import SKLearnModel
 import time
 import boto3
 
-role="arn:aws:iam::285407030131:role/sagemaker_execution_role"
+role="arn:aws:iam::477010600979:role/service-role/AmazonSageMaker-ExecutionRole-20260511T140775"
 
 boto_session = boto3.Session(region_name="eu-north-1")
 session = sagemaker.Session(boto_session=boto_session)
