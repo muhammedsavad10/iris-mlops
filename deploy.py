@@ -32,7 +32,7 @@ except:
 if endpoint_exists:
     print("🔄 Updating existing endpoint...")
     predictor = model.deploy(
-        instance_type="ml.t2.medium",
+        instance_type="ml.m5.large",
         initial_instance_count=1,
         endpoint_name=endpoint_name,
         update_endpoint=True
@@ -40,7 +40,7 @@ if endpoint_exists:
 else:
     print("🚀 Creating new endpoint...")
     predictor = model.deploy(
-        instance_type="ml.t2.medium",
+        instance_type="ml.m5.large",
         initial_instance_count=1,
         endpoint_name=endpoint_name
     )
