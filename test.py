@@ -1,20 +1,37 @@
-import boto3
+import sys
+from sagemaker.sklearn.model import SKLearnPredictor
+from sagemaker.serializers import JSONSerializer
+from sagemaker.deserializers import JSONDeserializer
 
-runtime = boto3.client(
-    "sagemaker-runtime",
-    region_name="eu-north-1"
-)
+# 1. MUST match the static name in deploy.py
+endpoint_name = "iris-production-api" 
 
-endpoint_name = "iris-endpoint--1778601925"
+print(f"🧪 Testing live endpoint: {endpoint_name}...")
 
-payload = "5.1,3.5,1.4,0.2"
+try:
+    # 2. Add the JSON translators
+    predictor = SKLearnPredictor(
+        endpoint_name=endpoint_name,
+        serializer=JSONSerializer(),
+        deserializer=JSONDeserializer()
+    )
 
-response = runtime.invoke_endpoint(
-    EndpointName=endpoint_name,
-    ContentType="text/csv",
-    Body=payload
-)
+    # 3. Send fake Setosa flower data
+    sample_data = [[5.1, 3.5, 1.4, 0.2]]
+    print("📤 Sending data to the model...")
+    prediction = predictor.predict(sample_data)
+    
+    # 4. Verify the response
+    print(f"✅ Success! Prediction received: {prediction}")
+    
+    # Check if the prediction actually contains data
+    if len(prediction) > 0:
+        print("🎉 Pipeline Integration Test Passed!")
+        sys.exit(0) # Exit 0 tells GitHub Actions: "PASS (Green Check)"
+    else:
+        print("❌ Error: The prediction was empty!")
+        sys.exit(1) # Exit 1 tells GitHub Actions: "FAIL (Red X)"
 
-result = response["Body"].read().decode()
-
-print(result)
+except Exception as e:
+    print(f"❌ Fatal Test Error: {e}")
+    sys.exit(1) # Exit 1 tells GitHub Actions: "FAIL (Red X)"
