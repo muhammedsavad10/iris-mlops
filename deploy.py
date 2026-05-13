@@ -9,7 +9,7 @@ boto_session = boto3.Session(region_name="eu-north-1")
 session = sagemaker.Session(boto_session=boto_session)
 
 
-endpoint_name = f"iris-endpoint--{int(time.time())}"
+endpoint_name = "iris-production-api"
 
 model = SKLearnModel(
     model_data="s3://muhammed-sagemaker-models-123/model.tar.gz",
