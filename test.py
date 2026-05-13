@@ -7,7 +7,7 @@ from sagemaker.serializers import JSONSerializer
 from sagemaker.deserializers import JSONDeserializer
 
 # Create AWS session with explicit region
-boto_session = boto3.Session(region_name="ap-north-1")
+boto_session = boto3.Session(region_name="eu-north-1")
 
 sagemaker_session = sagemaker.Session(
     boto_session=boto_session
