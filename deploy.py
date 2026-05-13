@@ -10,6 +10,7 @@ session = sagemaker.Session(boto_session=boto_session)
 
 
 endpoint_name = "iris-production-api"
+# trigger rebuild
 
 model = SKLearnModel(
     model_data="s3://muhammed-sagemaker-models-123/model.tar.gz",
